@@ -9,6 +9,7 @@ import sys
 sys.path.append('./models/')
 from models.User import User
 from models.Login import Login
+from cloth_detection import complete_process    
 
 # MongoDB connection details
 MONGO_USERNAME = "sriharshapy"
@@ -81,8 +82,10 @@ async def login_user(login: Login):
 async def processImages(username: str = Form(...),
                         images:List[UploadFile] = File(...)):
     for image in images:
-        print("Do your segmentation and classification")
-        #create_item(unser_name, item_type, item_description, item_colour, files)
+        filelist, categorylist, imagelist, colorlist = complete_process(image.file)
+        for i in range(len(filelist)):
+        
+            create_item(username, categorylist[i], '', colorlist[i], filelist[i])
     return "Yolo"
 
 

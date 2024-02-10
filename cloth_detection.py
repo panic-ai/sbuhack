@@ -141,7 +141,7 @@ def rgb_to_color_name(rgb):
             color_name = name
     return color_name
 
-def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_parts'):
+def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_parts',save=False):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -152,6 +152,10 @@ def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_pa
     probas = outputs.logits.softmax(-1)[0, :, :-1]
     keep = probas.max(-1).values > threshold
     bboxes_scaled = rescale_bboxes(outputs.pred_boxes[0, keep].cpu(), image.size)
+    filelist = []
+    imagelist = []
+    categorylist = []
+    colorlist = []
 
     for i, (p, box) in enumerate(zip(probas[keep], bboxes_scaled)):
         category = idx_to_text(p.argmax())
@@ -162,22 +166,27 @@ def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_pa
 
         dominant_color = get_dominant_color(cropped_image)
         color_name = rgb_to_color_name(dominant_color)  # Convert RGB to color name
+        
+        filelist.append(cropped_image)
+        categorylist.append(category)
+        imagelist.append(cropped_image)
+        colorlist.append(color_name)
 
-        cropped_image.save(f"{output_dir}/{category}_{color_name}_{i}.jpg")
+        
+
+        if save:
+            cropped_image.save(f"{output_dir}/{category}_{color_name}_{i}.jpg")
+    return filelist,categorylist,imagelist,colorlist
+
+
+def complete_process(image):
+    image = fix_channels(ToTensor()(image))
+    inputs = feature_extractor(images=image, return_tensors="pt")
+    outputs = model(**inputs)
+    return save_segmented_parts(image, outputs, threshold=0.5, output_dir=f"segmented_parts_{directory}")
 
 
 
-def detect_clothes(directory):
-    for filename in os.listdir(directory):
-        if filename.endswith(".jpg") or filename.endswith(".png"):
-            image = Image.open(os.path.join(directory, filename))
-            image = fix_channels(ToTensor()(image))
-            outputs = model(feature_extractor(image.unsqueeze(0)))
-            visualize_predictions(image, outputs)
-            output_dir = f"{directory}_classified"
-            save_segmented_parts(image, outputs, output_dir=output_dir)
-        else:
-            continue
 
 
 import sys
