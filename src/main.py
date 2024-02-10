@@ -5,10 +5,14 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 from passlib.context import CryptContext
 from gridfs import GridFS
+from bson import ObjectId
+from fastapi.responses import StreamingResponse
 import sys
 sys.path.append('./models/')
-from models.User import User
-from models.Login import Login
+from User import User
+from Login import Login
+from Item import Item
+
 from cloth_detection import complete_process    
 
 # MongoDB connection details
@@ -144,4 +148,40 @@ async def create_item(username: str = Form(...),
     else:
         raise HTTPException(status_code=500, detail="Failed to create item")    
     
+@app.get("/getItems/{username}")
+async def getItems(username: str):
 
+    if not collection.find_one({"username": username}):
+        raise HTTPException(status_code=404, detail="User not found")    
+
+    result = collectionItems.find({
+        "username": username
+    })
+    resp = []
+    for res in result:
+        resp.append(Item(
+            username= username,
+            item_type= res['item_type'],
+            item_description= res['item_description'],
+            item_colour= res['item_colour'],
+            file_id= res['file_id']
+        ))
+        
+    return resp
+
+@app.get("/files/{file_id}")
+async def get_file(file_id: str):
+    # Check if the provided file ID is valid
+    if not ObjectId.is_valid(file_id):
+        raise HTTPException(status_code=400, detail="Invalid file ID")
+
+    # Retrieve the file from GridFS by its ID
+    file_object = fs.get(ObjectId(file_id))
+    if file_object:
+        # Retrieve the file name
+        file_name = file_object.filename
+        
+        # Return the file contents and file name as response
+        return StreamingResponse(iter([file_object.read()]), media_type="application/octet-stream", headers={"Content-Disposition": f"attachment; filename={file_name}"})
+    else:
+        raise HTTPException(status_code=404, detail="File not found")
