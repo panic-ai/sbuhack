@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Styling App</title>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700&display=swap" rel="stylesheet">
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Epilogue', sans-serif;
+    background: #FFFFFF;
+  }
+
+  .app-container {
+    width: 390px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .greeting {
+    padding: 20px 16px 12px;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 28px;
+    color: #1C1C21;
+    text-align: center;
+    width: 100%;
+  }
+
+  .button {
+    width: 358px;
+    padding: 12px;
+    margin: 8px 0;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    background-color: #1A1AE6;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .btn-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .button-light {
+    background-color: #F0F0F5;
+    color: #1C1C21;
+  }
+
+  .user-container {
+    display: flex;
+    align-items: center; /* Aligns items vertically center */
+    gap: 10px; /* Adds a gap between the image and text */
+  }
+
+  .user-icon {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border-radius: 50%; /* Makes the image round */
+  }
+
+  /* Adjust the font size and padding as needed for the greeting */
+  .greeting {
+    font-size: 18px; /* Smaller font size */
+    padding: 0; /* Removes padding if not needed */
+    margin-left: 10px; /* Adds some space between the icon and the text */
+  }
+</style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="user-container">
+        <img src="html_images/user.jpg" alt="User Icon" class="user-icon">
+        <div class="greeting">
+            Hi, Sarah!<br>Up for some styling?<br>Let's start styling!
+        </div>
+      </div>
+
+
+    <img src="carousel_images/image1.jpg" alt="Image 1" style="max-width: 100%; max-height: 100%;">
+    
+    <!-- Buttons for CLOSET and GENERATE -->
+    <div class="btn-container">
+        <!-- Buttons for CLOSET and GENERATE on the same row -->
+        <button class="button button-light">CLOSET</button>
+        <button class="button">GENERATE</button>
+      </div>
+  </div>
+
+  <script>
+    // JavaScript code for handling button click events
+    document.querySelector('.button-light').addEventListener('click', function() {
+      // Add functionality for CLOSET button
+      console.log('CLOSET button clicked');
+    });
+
+    document.querySelector('.button').addEventListener('click', function() {
+      // Add functionality for GENERATE button
+      console.log('GENERATE button clicked');
+    });
+  </script>
+</body>
+</html>
