@@ -80,7 +80,35 @@ async def login_user(login: Login):
 @app.post("/processImages/")
 async def processImages(username: str = Form(...),
                         images:List[UploadFile] = File(...)):
+    for image in images:
+        print("Do your segmentation and classification")
+        #create_item(unser_name, item_type, item_description, item_colour, files)
     return "Yolo"
+
+
+def create_item(unser_name, item_type, item_description, item_colour, files):
+    if not collection.find_one({"username": unser_name}):
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Store file in MongoDB GridFS
+    file_id=None
+    for file in files:
+        contents = file.read()
+        file_id = fs.put(contents, filename=file.filename)
+
+    # Insert item details into the database
+    result = collectionItems.insert_one({
+        "username": unser_name,
+        "item_type": item_type,
+        "item_description": item_description,
+        "item_colour": item_colour,
+        "file_id": str(file_id)  # Store the file ID in the database
+    })
+
+    if result.inserted_id:
+        return {"message": "Item created successfully"}
+    else:
+        raise HTTPException(status_code=500, detail="Failed to create item")
 
 
 @app.post("/items/")
