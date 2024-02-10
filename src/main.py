@@ -8,13 +8,16 @@ from gridfs import GridFS
 from bson import ObjectId
 from fastapi.responses import StreamingResponse
 import sys
+from starlette.staticfiles import StaticFiles
+from starlette.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 sys.path.append('./models/')
 from User import User
 from Login import Login
 from Item import Item
 from oai import text_desc
 
-from cloth_detection import complete_process    
+from cloth_detection import complete_process
 
 # MongoDB connection details
 MONGO_USERNAME = "sriharshapy"
@@ -41,9 +44,40 @@ collectionItems = dbItemsDetails["item"]
 
 # Define Pydantic model for user registration
 
-
+origins = ["*"]
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+@app.get("/clozy", response_class=HTMLResponse)
+async def serving_index():
+    # Path to your HTML file inside the 'static' directory
+    file_path = "UI/index.html"
+
+    # Read the HTML file
+    with open(file_path, "r") as file:
+        html_content = file.read()
+
+    return HTMLResponse(content=html_content, status_code=200)
+
+@app.get("/clozy/signup", response_class=HTMLResponse)
+async def serving_signup():
+    # Path to your HTML file inside the 'static' directory
+    file_path = "UI/signup.html"
+
+    # Read the HTML file
+    with open(file_path, "r") as file:
+        html_content = file.read()
+
+    return HTMLResponse(content=html_content, status_code=200)
+
 
 @app.post("/register/")
 async def register_user(user: User):
@@ -71,7 +105,7 @@ async def register_user(user: User):
         return {"message": "User registered successfully", "user_id": user_id}
     else:
         raise HTTPException(status_code=500, detail="Failed to register user")
-    
+
 @app.post("/login/")
 async def login_user(login: Login):
     user = collection.find_one({"username": login.username})
@@ -81,7 +115,7 @@ async def login_user(login: Login):
         else:
             raise HTTPException(status_code=401, detail="Incorrect password")
     else:
-        raise HTTPException(status_code=404, detail="User not found")    
+        raise HTTPException(status_code=404, detail="User not found")
 
 @app.post("/processImages/")
 async def processImages(username: str = Form(...),
@@ -90,7 +124,6 @@ async def processImages(username: str = Form(...),
         filelist, categorylist, colorlist = complete_process(image.file)
         text_desc = text_desc(image.file)
         for i in range(len(filelist)):
-        
             create_item(username, categorylist[i], text_desc, colorlist[i], filelist[i])
     return "Yolo"
 
@@ -98,7 +131,7 @@ async def processImages(username: str = Form(...),
 def create_item(unser_name, item_type, item_description, item_colour, files):
     if not collection.find_one({"username": unser_name}):
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     # Store file in MongoDB GridFS
     file_id=None
     for file in files:
@@ -129,7 +162,7 @@ async def create_item(username: str = Form(...),
 
     if not collection.find_one({"username": username}):
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     # Store file in MongoDB GridFS
     file_id=None
     for file in files:
@@ -148,13 +181,13 @@ async def create_item(username: str = Form(...),
     if result.inserted_id:
         return {"message": "Item created successfully"}
     else:
-        raise HTTPException(status_code=500, detail="Failed to create item")    
-    
+        raise HTTPException(status_code=500, detail="Failed to create item")
+
 @app.get("/getItems/{username}")
 async def getItems(username: str):
 
     if not collection.find_one({"username": username}):
-        raise HTTPException(status_code=404, detail="User not found")    
+        raise HTTPException(status_code=404, detail="User not found")
 
     result = collectionItems.find({
         "username": username
@@ -168,7 +201,7 @@ async def getItems(username: str):
             item_colour= res['item_colour'],
             file_id= res['file_id']
         ))
-        
+
     return resp
 
 @app.get("/files/{file_id}")
@@ -182,7 +215,7 @@ async def get_file(file_id: str):
     if file_object:
         # Retrieve the file name
         file_name = file_object.filename
-        
+
         # Return the file contents and file name as response
         return StreamingResponse(iter([file_object.read()]), media_type="application/octet-stream", headers={"Content-Disposition": f"attachment; filename={file_name}"})
     else:
