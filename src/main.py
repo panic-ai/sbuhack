@@ -98,7 +98,6 @@ async def processImages(username: str = Form(...),
         filelist, categorylist, colorlist = complete_process(image.file)
         text_desc = text_desc(image.file)
         for i in range(len(filelist)):
-        
             create_item(username, categorylist[i], text_desc, colorlist[i], filelist[i])
     return "Yolo"
 
