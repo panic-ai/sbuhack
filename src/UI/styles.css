@@ -1,0 +1,12 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    margin: auto;
+    margin-top: 50px;
+}
+
+.logo-img {
+    margin-top: 20px; /* Adjust this value as needed */
+}

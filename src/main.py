@@ -8,6 +8,7 @@ from gridfs import GridFS
 from bson import ObjectId
 from fastapi.responses import StreamingResponse
 import sys
+from fastapi.middleware.cors import CORSMiddleware
 sys.path.append('./models/')
 from User import User
 from Login import Login
@@ -39,8 +40,15 @@ collectionItems = dbItemsDetails["item"]
 
 # Define Pydantic model for user registration
 
-
+origins = ["*"]
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @app.post("/register/")
