@@ -1,8 +1,10 @@
+from typing import List
 import uuid
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, File, Form, UploadFile
 from pydantic import BaseModel
 from pymongo import MongoClient
 from passlib.context import CryptContext
+from gridfs import GridFS
 import sys
 sys.path.append('./models/')
 from User import User
@@ -23,6 +25,13 @@ MONGO_URI = "mongodb+srv://sriharshapy:tOw5zBtJ3u3N7j7H@panicai.9wpdgnl.mongodb.
 client = MongoClient(MONGO_URI)
 db = client[DATABASE_NAME]
 collection = db[COLLECTION_NAME]
+
+dbFilesClient = client["userFiles"]
+collectionFiles = dbFilesClient["files"]
+fs = GridFS(dbFilesClient)
+
+dbItemsDetails = client["items"]
+collectionItems = dbItemsDetails["item"]
 
 # Define Pydantic model for user registration
 
@@ -67,5 +76,41 @@ async def login_user(login: Login):
             raise HTTPException(status_code=401, detail="Incorrect password")
     else:
         raise HTTPException(status_code=404, detail="User not found")    
+
+@app.post("/processImages/")
+async def processImages(username: str = Form(...),
+                        images:List[UploadFile] = File(...)):
+    return "Yolo"
+
+
+@app.post("/items/")
+async def create_item(username: str = Form(...),
+    item_type: str = Form(...),
+    item_description: str = Form(...),
+    item_colour: str = Form(...),
+    files: List[UploadFile] = File(...)):
+
+    if not collection.find_one({"username": username}):
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Store file in MongoDB GridFS
+    file_id=None
+    for file in files:
+        contents = await file.read()
+        file_id = fs.put(contents, filename=file.filename)
+
+    # Insert item details into the database
+    result = collectionItems.insert_one({
+        "username": username,
+        "item_type": item_type,
+        "item_description": item_description,
+        "item_colour": item_colour,
+        "file_id": str(file_id)  # Store the file ID in the database
+    })
+
+    if result.inserted_id:
+        return {"message": "Item created successfully"}
+    else:
+        raise HTTPException(status_code=500, detail="Failed to create item")    
     
 
