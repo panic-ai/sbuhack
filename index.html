@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: #FFFFFF;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 390px;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 358px;
+    height: 48px;
+    padding: 15px;
+    margin-bottom: 8px;
+    border: 1px solid #EFEFFF;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #4F4F96;
+  }
+
+  .button {
+    width: 358px;
+    height: 48px;
+    background: #1A1AE6;
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .signup-button {
+    background: #FFFFFF;
+    color: #0D0D1C;
+    margin-top: 12px;
+  }
+
+  .forgot-password {
+    color: #4F4F96;
+    font-size: 14px;
+    text-align: right;
+    margin-right: 16px;
+  }
+
+  .logo {
+  background: url('html_images/clozy_icon.jpg') no-repeat center center;
+  background-size: contain; /* This will ensure that your logo fits within the div without being stretched */
+  width: 100px;
+  height: 110px;
+  margin-bottom: 32px;
+}
+</style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo"> </div>
+    <form class="login-form">
+      <div class="input-group">
+        <input type="text" placeholder="Username">
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="Password">
+        <div class="forgot-password">Forgot password?</div>
+      </div>
+      <button type="submit" class="button">Log in</button>
+      <button type="button" class="button signup-button">New user? Sign Up</button>
+    </form>
+  </div>
+  <script>
+    // JavaScript goes here
+    document.querySelector('.login-form').onsubmit = function(event) {
+      event.preventDefault();
+      // Perform your JS login logic here
+      alert('Login form submitted');
+    };
+  </script>
+</body>
+</html>
