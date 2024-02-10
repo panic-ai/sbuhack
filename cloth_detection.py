@@ -169,14 +169,14 @@ def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_pa
         
         filelist.append(cropped_image)
         categorylist.append(category)
-        imagelist.append(cropped_image)
+
         colorlist.append(color_name)
 
         
 
         if save:
             cropped_image.save(f"{output_dir}/{category}_{color_name}_{i}.jpg")
-    return filelist,categorylist,imagelist,colorlist
+    return filelist,categorylist,colorlist
 
 
 def complete_process(image):

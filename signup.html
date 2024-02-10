@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup Page</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    background: #FFFFFF;
+  }
+
+  .signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 390px;
+    padding: 20px;
+  }
+
+  .signup-logo {
+    background: url('html_images/clozy_icon.jpg'); /* Update with the correct path to your logo */
+    width: 77px;
+    height: 90px;
+    margin-bottom: 24px;
+  }
+
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .signup-form input {
+    width: 358px;
+    height: 48px;
+    margin-bottom: 12px;
+    padding: 15px;
+    background: #FFFFFF;
+    border: 1px solid #EFEFFF;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #4F4F96;
+  }
+
+  .signup-form button {
+    width: 358px;
+    height: 40px;
+    background: #0303FF;
+    border-radius: 12px;
+    border: none;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .signup-header {
+    font-size: 18px;
+    font-weight: 700;
+    color: #13137A;
+    margin-bottom: 32px;
+  }
+</style>
+</head>
+<body>
+  <div class="signup-container">
+    <div class="signup-logo"></div>
+    <div class="signup-header">Sign up</div>
+    <form class="signup-form" id="signupForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      // Here you would handle the signup logic, for example sending data to the server
+      console.log({ email, username, password });
+
+      // After successful signup, you might want to redirect the user or give some confirmation
+    });
+  </script>
+</body>
+</html>

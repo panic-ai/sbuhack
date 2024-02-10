@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Measurements Input</title>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Insert all the CSS properties as provided above. */
+  /* Make sure to replace placeholder CSS comments with actual CSS. */
+  /* For instance: */
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Epilogue', sans-serif;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    width: 390px;
+    padding: 16px;
+    background: #FFFFFF;
+  }
+
+  .header {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 28px;
+    color: #121217;
+    margin-bottom: 4px;
+  }
+
+  .sub-header {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #121217;
+    margin-bottom: 12px;
+  }
+
+  .input-field {
+    background: #F0F0F5;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .input-field select {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: #636387;
+  }
+
+  .button {
+    width: 358px;
+    background: #1A1AE6;
+    color: #FFFFFF;
+    padding: 20px;
+    text-align: center;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">Enter your measurements</div>
+    <div class="sub-header">These will help us suggest the right sizes for you.</div>
+
+    <form id="measurementsForm">
+      <div class="input-field">
+        <label for="gender">Select gender</label>
+        <select name="gender" id="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="input-field">
+        <label for="shirtSize">Shirt size (XS to XXL)</label>
+        <select name="shirtSize" id="shirtSize">
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
+
+        </select>
+      </div>
+
+      <div class="input-field">
+        <label for="waistSize">Waist size (26 to 44 inches)</label>
+        <select name="waistSize" id="waistSize">
+          <option value="26">26</option>
+          <option value="28">28</option>
+          <option value="30">30</option>
+          <option value="32">32</option>
+          <option value="34">34</option>
+          <option value="36">36</option>
+          <option value="38">38</option>
+          <option value="40">40</option>
+          <option value="42">42</option>
+          <option value="44">44</option>
+          <!-- Add options for waist sizes here -->
+        </select>
+      </div>
+
+      <div class="input-field">
+        <label for="legLength">Leg length (26 to 44 inches)</label>
+        <select name="legLength" id="legLength">
+          <option value="26">26</option>
+          <option value="28">28</option>
+          <option value="30">30</option>
+          <option value="32">32</option>
+          <option value="34">34</option>
+          <option value="36">36</option>
+          <option value="38">38</option>
+          <option value="40">40</option>
+          <option value="42">42</option>
+          <option value="44">44</option>
+          <!-- Add options for leg lengths here -->
+        </select>
+      </div>
+
+      <button type="submit" class="button">Next</button>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript goes here
+    document.getElementById('measurementsForm').onsubmit = function(event) {
+      event.preventDefault();
+      // Collect form data
+      var formData = {
+        gender: document.getElementById('gender').value,
+        shirtSize: document.getElementById('shirtSize').value,
+        waistSize: document.getElementById('waistSize').value,
+        legLength: document.getElementById('legLength').value
+      };
+      console.log(formData);
+      // Add logic to process and use the form data as needed
+    };
+  </script>
+</body>
+</html>

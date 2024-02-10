@@ -12,6 +12,7 @@ sys.path.append('./models/')
 from User import User
 from Login import Login
 from Item import Item
+from oai import text_desc
 
 from cloth_detection import complete_process    
 
@@ -86,10 +87,11 @@ async def login_user(login: Login):
 async def processImages(username: str = Form(...),
                         images:List[UploadFile] = File(...)):
     for image in images:
-        filelist, categorylist, imagelist, colorlist = complete_process(image.file)
+        filelist, categorylist, colorlist = complete_process(image.file)
+        text_desc = text_desc(image.file)
         for i in range(len(filelist)):
         
-            create_item(username, categorylist[i], '', colorlist[i], filelist[i])
+            create_item(username, categorylist[i], text_desc, colorlist[i], filelist[i])
     return "Yolo"
 
 
