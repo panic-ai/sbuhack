@@ -8,6 +8,8 @@ from gridfs import GridFS
 from bson import ObjectId
 from fastapi.responses import StreamingResponse
 import sys
+from starlette.staticfiles import StaticFiles
+from starlette.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 sys.path.append('./models/')
 from User import User
