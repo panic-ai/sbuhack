@@ -36,6 +36,8 @@ async def register_user(user: User):
     existing_user = collection.find_one({"$or": [{"username": user.username}, {"email": user.email}]})
     if existing_user:
         raise HTTPException(status_code=400, detail="Username or email already registered")
+    if user.gender not in ["male","female","non binary"]:
+        raise HTTPException(status_code=400, detail="Invalid gender")
 
     # Insert the new user into the database with the unique ObjectId
     result = collection.insert_one({
@@ -45,7 +47,8 @@ async def register_user(user: User):
         "country": user.country,
         "date_of_birth": user.date_of_birth,
         "username": user.username,
-        "password": pwd_context.hash(user.password) 
+        "password": pwd_context.hash(user.password) ,
+        "gender" : user.gender
     })
     if result.inserted_id:
         # Get the ObjectId of the inserted document
@@ -56,13 +59,13 @@ async def register_user(user: User):
     
 @app.post("/login/")
 async def login_user(login: Login):
-    # Retrieve user from database by username
     user = collection.find_one({"username": login.username})
     if user:
-        # Verify password hash
         if pwd_context.verify(login.password, user["password"]):
             return {"message": "Login successful"}
         else:
             raise HTTPException(status_code=401, detail="Incorrect password")
     else:
         raise HTTPException(status_code=404, detail="User not found")    
+    
+
