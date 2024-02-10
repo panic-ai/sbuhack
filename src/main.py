@@ -7,8 +7,8 @@ from passlib.context import CryptContext
 from gridfs import GridFS
 import sys
 sys.path.append('./models/')
-from User import User
-from Login import Login
+from models.User import User
+from models.Login import Login
 
 # MongoDB connection details
 MONGO_USERNAME = "sriharshapy"
