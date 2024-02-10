@@ -1,1 +1,1 @@
-python3 -m uvicorn main:app --reload --port 80
+sudo python3 -m uvicorn main:app --reload --port 8000
