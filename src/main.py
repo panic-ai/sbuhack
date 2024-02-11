@@ -56,6 +56,15 @@ app.add_middleware(
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
+@app.get("/clozy/UI/{imageasset}")
+async def get_file(imageasset: str):
+    # Check if the provided file ID is valid
+        file_path = "UI/html_images/"+imageasset
+        with open(file_path, "r") as file:
+            images_file = file.read()
+        # Return the file contents and file name as response
+        return StreamingResponse(iter([images_file]), media_type="application/octet-stream", headers={"Content-Disposition": f"attachment; filename={imageasset}"})
+
 @app.get("/clozy", response_class=HTMLResponse)
 async def serving_index():
     # Path to your HTML file inside the 'static' directory
