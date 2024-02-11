@@ -60,6 +60,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 async def get_image_assets(imageasset: str):
     # Check if the provided file ID is valid
         file_path = "UI/images/"+imageasset
+        images_file = None
         with open(file_path, "r") as file:
             images_file = file.read()
         # Return the file contents and file name as response
