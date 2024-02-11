@@ -141,9 +141,7 @@ def rgb_to_color_name(rgb):
             color_name = name
     return color_name
 
-def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_parts',save=False):
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+def save_segmented_parts(image, outputs, threshold=0.8):
 
     to_be_ignored = ['sleeve', 'collar', 'pocket', 'neckline', 'buckle', 'zipper', 'applique',
                      'bead', 'bow', 'flower', 'fringe', 'ribbon', 'rivet', 'ruffle',
@@ -172,10 +170,6 @@ def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_pa
 
         colorlist.append(color_name)
 
-
-
-        if save:
-            cropped_image.save(f"{output_dir}/{category}_{color_name}_{i}.jpg")
     return filelist,categorylist,colorlist
 
 
@@ -185,7 +179,7 @@ def complete_process(image):
     inputs = feature_extractor(images=image, return_tensors="pt")
     print ("Feature extraction done")
     outputs = model(**inputs)
-    return save_segmented_parts(image, outputs, threshold=0.5, output_dir=f"segmented_parts_{directory}")
+    return save_segmented_parts(image, outputs, threshold=0.5)
 
 
 
