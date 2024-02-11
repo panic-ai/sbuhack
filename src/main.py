@@ -255,7 +255,7 @@ async def getItems(username: str):
     files = os.listdir(location)
     line = ""
     for file in files:
-        for x in  file.split("-")[:-1]
+        for x in  file.split("-")[:-1]:
             line = line +" " +x
         line = line + ","
     return line[:-1]
