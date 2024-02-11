@@ -1,145 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Closet</title>
-<style>
-    body, h1, p, button {
-    font-family: 'Epilogue', sans-serif;
-}
-
-.container {
-    max-width: 390px;
-    margin: auto;
-    background: #FFFFFF;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-}
-
-.icon-button {
-    background: url('path-to-icon.png') no-repeat center center;
-    width: 48px;
-    height: 48px;
-    border: none;
-}
-
-.home-button {
-    background-image: url('html_images/home_icon.jpg');
-}
-
-.settings-button {
-    background-image: url('html_images/settings.png');
-}
-
-h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #121217;
-}
-
-p {
-    font-size: 14px;
-    font-weight: 500;
-    color: #000000;
-    padding: 12px;
-}
-
-main {
-    padding: 16px;
-}
-
-.image-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    /* You will need to set up the image dimensions as required */
-}
-
-footer {
-    padding: 8px 16px;
-    border-top: 1px solid #F0F0F5;
-    display: flex;
-    justify-content: center;
-}
-
-.add-button {
-    font-size: 24px;
-    font-weight: 700;
-    color: #000000;
-    background: none;
-    border: none;
-}
-
-</style>
-<script>
-    const fs = require('fs');
-// Load images from the "user images" folder
-const imageContainer = document.querySelector('.image-container');
-
-// Assuming you have a way to get the list of image file names
-const imageFilenames = [''];
-const folderPath = 'userA_clothes';
-
-fs.readdir(folderPath, (err, files) => {
-    if (err) {
-        console.error('Error reading folder:', err);
-        return;
-    }
-
-    console.log('Files in userA_clothes folder:');
-    files.forEach(file => {
-        console.log(file);
-    });
-});
-
-imageFilenames.forEach(filename => {
-    const img = document.createElement('img');
-    img.src = `user-images/${filename}`;
-    img.alt = '';
-    imageContainer.appendChild(img);
-});
-
-// Add event listeners to buttons
-const homeButton = document.querySelector('.home-button');
-homeButton.addEventListener('click', () => {
-    // Implement home button functionality
-});
-
-const settingsButton = document.querySelector('.settings-button');
-settingsButton.addEventListener('click', () => {
-    // Implement settings button functionality
-});
-
-const addButton = document.querySelector('.add-button');
-addButton.addEventListener('click', () => {
-    // Implement add more functionality
-});
-
-</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Closet</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <button class="icon-button home-button" aria-label="Home"></button>
-            <h1>My Closet</h1>
-            <button class="icon-button settings-button" aria-label="Settings"></button>
-        </header>
-        <p>Welcome to your wardrobe wonderland!</p>
-        <main>
-            <div class="image-container">
-                <!-- Image elements will be inserted here by JavaScript -->
+<div class="app-container">
+    <header class="header">
+        <div class="top-bar">
+            <!-- FILEPATH: /c:/Users/aniru/OneDrive/Desktop/sbuhack/closet.html -->
+            <div class="icon-settings">
+                <img src="html_images/settings.png" alt="Settings Icon">
             </div>
-        </main>
-        <footer>
-            <button class="add-button" aria-label="Add more">+ ADD MORE</button>
-        </footer>
-    </div>
-    <!-- <script src="scripts.js"></script> -->
+            <!-- END: ed8c6549bwf9 -->
+            <div class="title">My Closet</div>
+        </div>
+        <div class="welcome-message">Welcome to your wardrobe wonderland!</div>
+    </header>
+
+    <main class="wardrobe-items">
+        <!-- Each item could be a div with a background-image set in the CSS -->
+        <div class="wardrobe-item"></div>
+        <div class="wardrobe-item"></div>
+        <div class="wardrobe-item"></div>
+        <div class="wardrobe-item"></div>
+        <div class="wardrobe-item"></div>
+    </main>
+
+    <footer class="footer">
+        <button class="add-clozy">+ ADD CLOZY</button>
+    </footer>
+</div>
 </body>
 </html>
