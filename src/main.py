@@ -68,14 +68,14 @@ app.add_middleware(
 )
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def complete_process(image):
-    image = fix_channels(ToTensor()(image))
-    print ("Fix channels done")
-    inputs = feature_extractor(images=image, return_tensors="pt")
-    print ("Feature extraction done")
-    outputs = model(**inputs)
-    print ("Output done")
-    return save_segmented_parts(image, outputs, threshold=0.5)
+# def complete_process(image):
+#     image = fix_channels(ToTensor()(image))
+#     print ("Fix channels done")
+#     inputs = feature_extractor(images=image, return_tensors="pt")
+#     print ("Feature extraction done")
+#     outputs = model(**inputs)
+#     print ("Output done")
+#     return save_segmented_parts(image, outputs, threshold=0.5)
 
 def fix_channels(t):
     """
