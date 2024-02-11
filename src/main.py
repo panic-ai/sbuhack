@@ -15,7 +15,7 @@ sys.path.append('./models/')
 from User import User
 from Login import Login
 from Item import Item
-from oai import text_desc
+# from oai import text_desc
 from fastapi.responses import FileResponse
 from pathlib import Path
 # from cloth_detection import complete_process
