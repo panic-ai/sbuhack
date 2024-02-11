@@ -202,12 +202,16 @@ async def processImages(username: str = Form(...),
             location = "/home/ubuntu/images/"+username+"/"
             if not os.path.exists(location):
                 os.makedirs(location)
-            fname = location+"-"+colorlist[i]+"-"+categorylist[i]
+            category = categorylist[i].split(',')
+            temp = ''
+            for i in category:
+                temp=temp+"_"+i
+            fname = location+"-"+colorlist[i]+"-"+temp
             filelist[i].save(fname+"-"+image.filename)
             data = {
                 "location": location,
                 "color": colorlist[i],
-                "categorylist": categorylist[i]
+                "categorylist": temp
             }
             with open(location+".json", "w") as json_file:
                 json.dump(data, json_file, indent=4)
