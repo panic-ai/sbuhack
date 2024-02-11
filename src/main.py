@@ -59,7 +59,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 @app.get("/clozy/UI/{imageasset}")
 async def get_file(imageasset: str):
     # Check if the provided file ID is valid
-        file_path = "UI/html_images/"+imageasset
+        file_path = "UI/images/"+imageasset
         with open(file_path, "r") as file:
             images_file = file.read()
         # Return the file contents and file name as response
