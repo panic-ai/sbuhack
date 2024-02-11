@@ -188,9 +188,7 @@ def create_item(unser_name, item_type, item_description, item_colour, files):
         "file_id": str(file_id)  # Store the file ID in the database
     })
 
-    if result.inserted_id:
-        continue
-    else:
+    if not result.inserted_id:
         raise HTTPException(status_code=500, detail="Failed to create item")
 
 
