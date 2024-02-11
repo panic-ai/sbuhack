@@ -94,6 +94,11 @@
     </form>
   </div>
   <script>
+  document.querySelector('.signup-button').onclick = function() {
+    // Redirect to the new page upon clicking the button
+    window.location.href = 'http://44.211.67.134/clozy/signup'; // Replace 'path_to_your_signup_page.html' with the actual path to your HTML file
+  };
+
     document.querySelector('.login-form').onsubmit = async function(event) {
       event.preventDefault();
 
