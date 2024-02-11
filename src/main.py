@@ -6,6 +6,8 @@ from pymongo import MongoClient
 from passlib.context import CryptContext
 from gridfs import GridFS
 from bson import ObjectId
+import requests
+
 from fastapi.responses import StreamingResponse
 import sys
 from starlette.staticfiles import StaticFiles
@@ -165,7 +167,18 @@ async def processImages(username: str = Form(...),
             filelist[i].save(bytes_io, format='JPEG')
             bytes_io.seek(0)
             upload_file = UploadFile(filename=""+"-"+image.filename, file=bytes_io)
-            create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
+            form_data = {
+                "username": username,
+                "item_type": categorylist[i],
+                "item_description": text_desctiption,
+                "item_colour": colorlist[i]
+            }
+            files = {
+                'files': (upload_file.filename, upload_file.file, upload_file.content_type)
+            }
+
+            response = requests.post(url, headers=headers, data=form_data, files=files)
+            #create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
     return "Yolo"
 
 
