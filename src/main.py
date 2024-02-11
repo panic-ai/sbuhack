@@ -24,6 +24,7 @@ from cloth_detection import save_segmented_parts
 from PIL import Image
 import io
 import os
+import json
 from torchvision.transforms import ToTensor, ToPILImage
 
 
@@ -201,7 +202,15 @@ async def processImages(username: str = Form(...),
             location = "/home/ubuntu/images/"+username+"/"
             if not os.path.exists(location):
                 os.makedirs(location)
-            filelist[i].save(location+categorylist[i]+"-"+image.filename)
+            fname = location+"-"+colorlist[i]+"-"+categorylist[i]
+            filelist[i].save(fname+"-"+image.filename)
+            data = {
+                "location": location,
+                "color": colorlist[i],
+                "categorylist": categorylist[i]
+            }
+            with open(location+".json", "w") as json_file:
+                json.dump(data, json_file, indent=4)
 
 # Close the image file
             filelist[i].close()
@@ -242,23 +251,12 @@ async def create_item(username: str = Form(...),
 
 @app.get("/getItems/{username}")
 async def getItems(username: str):
-
-    if not collection.find_one({"username": username}):
-        raise HTTPException(status_code=404, detail="User not found")
-
-    result = collectionItems.find({
-        "username": username
-    })
-    resp = []
-    for res in result:
-        resp.append(Item(
-            username= username,
-            item_type= res['item_type'],
-            item_description= res['item_description'],
-            item_colour= res['item_colour'],
-            file_id= res['file_id']
-        ))
-
+    location = "/home/ubuntu/images/"+username+"/"
+    files = os.listdir(location)
+    line = ""
+    for file in files:
+        line = line + file.split("-")[:-1]
+        print (line)
     return resp
 
 @app.get("/files/{file_id}")
