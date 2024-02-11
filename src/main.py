@@ -7,7 +7,7 @@ from passlib.context import CryptContext
 from gridfs import GridFS
 from bson import ObjectId
 import requests
-
+from transformers import YolosFeatureExtractor, YolosForObjectDetection
 from fastapi.responses import StreamingResponse
 import sys
 from starlette.staticfiles import StaticFiles

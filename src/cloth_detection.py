@@ -1,4 +1,3 @@
-from transformers import YolosFeatureExtractor, YolosForObjectDetection
 import torch
 import matplotlib.pyplot as plt
 from torchvision.transforms import ToTensor, ToPILImage
