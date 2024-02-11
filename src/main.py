@@ -150,6 +150,7 @@ async def processImages(username: str = Form(...),
         contents = await image.read()
         # Create a bytes buffer from the file content
         bytes_io = io.BytesIO(contents)
+        print ("\nContent rceived\n")
 
         # Open the bytes buffer with PIL
         pil_image = Image.open(bytes_io)
