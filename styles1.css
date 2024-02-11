@@ -1,0 +1,130 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  background: #FFFFFF;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%; /* Full width for mobile */
+  height: 100vh;
+  background: #FFFFFF;
+  align-items: center; /* Aligns children (header, content) on the cross axis (horizontal) */
+}
+
+.app-header {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Centers the header content */
+  align-items: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.back-icon {
+  position: absolute; /* Absolute position to take it out of the normal flow */
+  left: 16px; /* Position from the left */
+  top: 16px; /* Position from the top */
+  width: 24px;
+  height: 24px;
+}
+
+.app-title {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1C0D12;
+}
+
+.app-content {
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the content */
+}
+
+.app-content h1 {
+  font-weight: 700;
+  font-size: 22px;
+  color: #1C0D12;
+  margin: 16px 0;
+}
+
+.app-content p {
+  font-weight: 400;
+  font-size: 16px;
+  color: #1C0D12;
+  margin-bottom: 24px;
+}
+
+.image-container {
+  width: 25%; /* Full width container */
+  display: flex;
+  justify-content: center; /* Center the image */
+}
+
+.style-image {
+  max-width: 100%; /* Make image responsive */
+  height: auto;
+  margin-bottom: 24px; /* Spacing below the image */
+}
+
+.input-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center; /* Center input fields */
+}
+
+.input-section input, .input-section button, .generate-button {
+  width: 80%; /* Input and button width */
+  margin-bottom: 12px; /* Space between inputs/buttons */
+  /* Other styles */
+}
+.input-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center; /* Center input fields */
+}
+
+.input-section input {
+  background: #EDEDED;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #ccc; /* Style as needed */
+  font-size: 14px;
+  color: #7C5964;
+  margin-bottom: 12px; /* Space between input fields */
+  width: 80%; /* Input field width */
+}
+
+.input-section button {
+  background: #EDEDED;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: none;
+  font-size: 14px;
+  color: #7C5964;
+  margin-bottom: 12px; /* Space between buttons */
+  width: 80%; /* Button width */
+}
+
+.generate-button {
+  background: #D7D7FF;
+  color: #090909;
+  font-weight: 700;
+}
+
+@media (max-width: 390px) {
+  .app-container {
+    height: auto;
+    min-height: 100vh;
+  }
+  .app-header {
+    justify-content: center; /* Center title on very narrow screens */
+  }
+}
