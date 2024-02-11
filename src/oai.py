@@ -7,7 +7,7 @@ client = OpenAI(api_key='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')
 # Function to encode the image
 def text_desc(image_file):
     # Getting the base64 string
-    base64_image =  base64.b64encode(image_file).decode('utf-8')
+    base64_image =  base64.b64encode(image_file.getvalue()).decode('utf-8')
     completion = client.chat.completions.create(
     model =  "gpt-4-vision-preview",
     messages= [
