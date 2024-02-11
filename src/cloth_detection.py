@@ -181,7 +181,9 @@ def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_pa
 
 def complete_process(image):
     image = fix_channels(ToTensor()(image))
+    print ("Fix channels done")
     inputs = feature_extractor(images=image, return_tensors="pt")
+    print ("Feature extraction done")
     outputs = model(**inputs)
     return save_segmented_parts(image, outputs, threshold=0.5, output_dir=f"segmented_parts_{directory}")
 

@@ -155,6 +155,7 @@ async def processImages(username: str = Form(...),
         # Open the bytes buffer with PIL
         pil_image = Image.open(bytes_io)
         filelist, categorylist, colorlist = complete_process(pil_image)
+        print ("complete_process complete")
         print ("\n\nfilelist \n",filelist)
         print ("\n\ncategorylist\n ",categorylist)
         print ("\n\ncolorlist\n ",colorlist)
