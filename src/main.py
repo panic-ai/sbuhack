@@ -172,7 +172,7 @@ async def login_user(login: Login):
     else:
         raise HTTPException(status_code=404, detail="User not found")
 
-@app.post("/processImages/",timeout=30)
+@app.post("/processImages/")
 async def processImages(username: str = Form(...),
                         images:List[UploadFile] = File(...)):
     for image in images:
