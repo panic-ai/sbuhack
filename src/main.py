@@ -183,13 +183,13 @@ async def processImages(username: str = Form(...),
 
         # Open the bytes buffer with PIL
         pil_image = Image.open(bytes_io)
-        image = fix_channels(ToTensor()(pil_image))
+        fiximage = fix_channels(ToTensor()(pil_image))
         print ("Fix channels done")
-        inputs = feature_extractor(images=image, return_tensors="pt")
+        inputs = feature_extractor(images=fiximage, return_tensors="pt")
         print ("Feature extraction done")
         outputs = model(**inputs)
         print ("Output done")
-        filelist, categorylist, colorlist = save_segmented_parts(image, outputs, threshold=0.5)
+        filelist, categorylist, colorlist = save_segmented_parts(fiximage, outputs, threshold=0.5)
         print ("complete_process complete")
         print ("\n\nfilelist \n",filelist)
         print ("\n\ncategorylist\n ",categorylist)
