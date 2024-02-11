@@ -20,7 +20,7 @@ from Item import Item
 from oai import text_desc
 from fastapi.responses import FileResponse
 from pathlib import Path
-from cloth_detection import complete_process
+from cloth_detection import fix_channels
 from PIL import Image
 import io
 
@@ -64,6 +64,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def complete_process(image):
+    image = fix_channels(ToTensor()(image))
+    print ("Fix channels done")
+    inputs = feature_extractor(images=image, return_tensors="pt")
+    print ("Feature extraction done")
+    outputs = model(**inputs)
+    return save_segmented_parts(image, outputs, threshold=0.5)
 
 
 @app.get("/clozy/UI/{imageasset}")
@@ -160,7 +168,7 @@ async def processImages(username: str = Form(...),
 
         # Open the bytes buffer with PIL
         pil_image = Image.open(bytes_io)
-        filelist, categorylist, colorlist = complete_process(pil_image,feature_extractor,model)
+        filelist, categorylist, colorlist = complete_process(pil_image)
         print ("complete_process complete")
         print ("\n\nfilelist \n",filelist)
         print ("\n\ncategorylist\n ",categorylist)
