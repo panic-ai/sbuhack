@@ -20,7 +20,7 @@ from Item import Item
 from oai import text_desc
 from fastapi.responses import FileResponse
 from pathlib import Path
-from cloth_detection import fix_channels
+from cloth_detection import save_segmented_parts
 from PIL import Image
 import io
 from torchvision.transforms import ToTensor, ToPILImage
@@ -72,6 +72,7 @@ def complete_process(image):
     inputs = feature_extractor(images=image, return_tensors="pt")
     print ("Feature extraction done")
     outputs = model(**inputs)
+    print ("Output done")
     return save_segmented_parts(image, outputs, threshold=0.5)
 
 def fix_channels(t):
