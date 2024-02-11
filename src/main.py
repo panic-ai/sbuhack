@@ -255,9 +255,10 @@ async def getItems(username: str):
     files = os.listdir(location)
     line = ""
     for file in files:
-        line = line + file.split("-")[:-1]
-        print (line)
-    return resp
+        for x in  file.split("-")[:-1]
+            line = line +" " +x
+        line = line + ","
+    return line[:-1]
 
 @app.get("/files/{file_id}")
 async def get_file(file_id: str):
