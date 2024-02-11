@@ -75,6 +75,7 @@
     <div class="signup-header">Sign up</div>
     <form class="signup-form" id="signupForm">
       <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="name" placeholder="Name" required>
       <input type="text" id="username" placeholder="Username" required>
       <input type="password" id="password" placeholder="Password" required>
       <input type="password" id="confirmPassword" placeholder="Confirm password" required>
@@ -90,6 +91,7 @@
     document.getElementById('signupForm').addEventListener('submit', async function(event) {
       event.preventDefault();
       const email = document.getElementById('email').value;
+      const name = document.getElementById('name').value;
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
@@ -104,6 +106,7 @@
       }
       const data = {
         username: username,
+        name: name,
         password: password,
         gender: gender,
         country: country,
