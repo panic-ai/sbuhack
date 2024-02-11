@@ -197,23 +197,13 @@ async def processImages(username: str = Form(...),
         text_desctiption = text_desc(bytes_io)
         print ("\n\text_desctiption\n ",text_desctiption)
         for i in range(len(filelist)):
-            bytes_io = io.BytesIO()
-            filelist[i].save(bytes_io, format='JPEG')
-            bytes_io.seek(0)
-            form_data = {
-                "username": username,
-                "item_type": categorylist[i],
-                "item_description": text_desctiption,
-                "item_colour": colorlist[i]
-            }
-            files = {
-                'files': (categorylist[i]+"-"+image.filename,bytes_io, 'image/jpeg')
-            }
-            headers = {
-                'accept': 'application/json',
-            }
+            location = "/home/ubuntu/images/"+username+"/"
+            if not os.path.exists(location):
+                os.makedirs(location)
+            filelist[i].save(location+categorylist[i]+"-"+image.filename)
 
-            response = requests.post("http://localhost:8000/items/", headers=headers, data=form_data, files=files)
+# Close the image file
+            filelist[i].close()
             #create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
     return "Yolo"
 
