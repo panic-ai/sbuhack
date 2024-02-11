@@ -9,7 +9,7 @@ client = OpenAI(api_key='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')
 # Function to encode the image
 def text_desc(image_file):
     # Getting the base64 string
-    base64_image =  base64.b64encode(image_file.read()).decode('utf-8')
+    base64_image =  base64.b64encode(image_file.getvalue()).decode('utf-8')
     completion = client.chat.completions.create(
     model =  "gpt-4-vision-preview",
     messages= [
@@ -31,13 +31,12 @@ def text_desc(image_file):
     ],
     max_tokens = 300
     )
-    
+
 
     # print(completion.choices[0].message)
 
-            
-    return completion.choices[0].message.content
 
+    return completion.choices[0].message.content
 
 def suggest_outfit(event, dress_string):
     # Assuming `openai` is already configured with your API key
