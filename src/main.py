@@ -164,7 +164,7 @@ async def processImages(username: str = Form(...),
             bytes_io = io.BytesIO()
             filelist[i].save(bytes_io, format='JPEG')
             bytes_io.seek(0)
-            upload_file = UploadFile(filename=""+"-"+image.filename, content=bytes_io)
+            upload_file = UploadFile(filename=""+"-"+image.filename, file=bytes_io)
             create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
     return "Yolo"
 
