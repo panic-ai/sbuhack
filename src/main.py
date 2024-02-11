@@ -178,16 +178,15 @@ async def login_user(login: Login):
 async def processImages(username: str = Form(...),
                         images:List[UploadFile] = File(...)):
     for image in images:
-        contents = await image.read()
         # Create a bytes buffer from the file content
-        bytes_io = io.BytesIO(contents)
+        bytes_io = io.BytesIO(await image.read())
         print ("\nContent rceived\n")
 
         # Open the bytes buffer with PIL
         pil_image = Image.open(bytes_io)
-        fiximage = fix_channels(ToTensor()(pil_image))
+        pil_image = fix_channels(ToTensor()(pil_image))
         print ("Fix channels done")
-        inputs = feature_extractor(images=fiximage, return_tensors="pt")
+        inputs = feature_extractor(images=pil_image, return_tensors="pt")
         print ("Feature extraction done")
         outputs=None
         try:
@@ -195,7 +194,7 @@ async def processImages(username: str = Form(...),
         except Exception as e:
             print (e)
         print ("Output done")
-        filelist, categorylist, colorlist = save_segmented_parts(fiximage, outputs, threshold=0.2)
+        filelist, categorylist, colorlist = save_segmented_parts(pil_image, outputs, threshold=0.2)
         print ("complete_process complete")
         print ("\n\nfilelist \n",filelist)
         print ("\n\ncategorylist\n ",categorylist)
