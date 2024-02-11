@@ -200,7 +200,6 @@ async def processImages(username: str = Form(...),
             bytes_io = io.BytesIO()
             filelist[i].save(bytes_io, format='JPEG')
             bytes_io.seek(0)
-            upload_file = UploadFile(filename=""+"-"+image.filename, file=bytes_io)
             form_data = {
                 "username": username,
                 "item_type": categorylist[i],
@@ -208,7 +207,7 @@ async def processImages(username: str = Form(...),
                 "item_colour": colorlist[i]
             }
             files = {
-                'files': (upload_file.filename, upload_file.file, upload_file.content_type)
+                'files': (categorylist[i]+"-"+image.filename,bytes_io, 'image/jpeg')
             }
             headers = {
                 'accept': 'application/json',
@@ -218,28 +217,6 @@ async def processImages(username: str = Form(...),
             #create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
     return "Yolo"
 
-
-def create_item(unser_name, item_type, item_description, item_colour, files):
-    if not collection.find_one({"username": unser_name}):
-        raise HTTPException(status_code=404, detail="User not found")
-
-    # Store file in MongoDB GridFS
-    file_id=None
-    for file in files:
-        contents = file.read()
-        file_id = fs.put(contents, filename=file.filename)
-
-    # Insert item details into the database
-    result = collectionItems.insert_one({
-        "username": unser_name,
-        "item_type": item_type,
-        "item_description": item_description,
-        "item_colour": item_colour,
-        "file_id": str(file_id)  # Store the file ID in the database
-    })
-
-    if not result.inserted_id:
-        raise HTTPException(status_code=500, detail="Failed to create item")
 
 
 @app.post("/items/")
