@@ -22,14 +22,14 @@ from pathlib import Path
 
 # MongoDB connection details
 MONGO_USERNAME = "sriharshapy"
-MONGO_PASSWORD = "tOw5zBtJ3u3N7j7H"
+MONGO_PASSWORD = "V9KLsQBdhZxGm9cK"
 MONGO_HOST = "9wpdgnl.mongodb.net"
 MONGO_PORT = 27017
 DATABASE_NAME = "userdb"
 COLLECTION_NAME = "users"
 
 # MongoDB connection URI with authentication
-MONGO_URI = "mongodb+srv://sriharshapy:tOw5zBtJ3u3N7j7H@panicai.9wpdgnl.mongodb.net/?retryWrites=true&w=majority"
+MONGO_URI = "mongodb+srv://sriharshapy:V9KLsQBdhZxGm9cK@cluster0.d4ts45w.mongodb.net/?retryWrites=true&w=majority"
 
 # Connect to MongoDB
 client = MongoClient(MONGO_URI)

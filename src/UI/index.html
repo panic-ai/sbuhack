@@ -70,7 +70,7 @@
   }
 
   .logo {
-  background: url('http://44.211.67.134/clozy/UI/clozy_icon.jpg') no-repeat center center;
+  background: url('http://44.211.67.134/clozy/UI/clozy_icon_name.jpg') no-repeat center center;
   background-size: contain; /* This will ensure that your logo fits within the div without being stretched */
   width: 100px;
   height: 110px;
@@ -94,12 +94,39 @@
     </form>
   </div>
   <script>
-    // JavaScript goes here
-    document.querySelector('.login-form').onsubmit = function(event) {
+    document.querySelector('.login-form').onsubmit = async function(event) {
       event.preventDefault();
-      // Perform your JS login logic here
-      alert('Login form submitted');
+
+      // Get the values of username and password
+      const username = document.querySelector('input[type="text"]').value;
+      const password = document.querySelector('input[type="password"]').value;
+
+      // Data to be sent as part of the POST request
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('password', password);
+
+      try {
+        const response = await fetch('your-server-url-here', {
+          method: 'POST',
+          body: formData
+        });
+
+        // Check if the request was successful
+        if (response.ok) {
+          // Redirect to another page or perform some action upon successful login
+          alert('Login successful');
+        } else {
+          // Handle the case where login was not successful
+          alert('Login failed. Please try again.');
+        }
+      } catch (error) {
+        // Handle any errors that occur during the fetch operation
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+      }
     };
   </script>
+
 </body>
 </html>
