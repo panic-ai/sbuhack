@@ -96,7 +96,7 @@
   <script>
   document.querySelector('.signup-button').onclick = function() {
     // Redirect to the new page upon clicking the button
-    window.location.href = 'signup.html'; // Replace 'path_to_your_signup_page.html' with the actual path to your HTML file
+    window.location.href = '/signup'; // Replace 'path_to_your_signup_page.html' with the actual path to your HTML file
   };
 
     document.querySelector('.login-form').onsubmit = async function(event) {
@@ -125,7 +125,7 @@
         // Check if the request was successful
         if (response.ok) {
           // Redirect to another page or perform some action upon successful login
-          window.location.href = 'UI/homepage.html'; // Replace '
+          window.location.href = 'homepage'; // Replace ' /clozy/homepage' with the actual path to your HTML file
         } else {
           // Handle the case where login was not successful
           alert('Login failed. Please try again.');

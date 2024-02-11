@@ -1,0 +1,55 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+.container {
+  text-align: center; /* Center text */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+
+
+.gallery img {
+  height: 10vh; /* Example fixed height for all images */
+  width: auto; /* Maintain aspect ratio */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button#addClozy {
+  position: sticky; /* Make button stick to its position */
+  bottom: 20px; /* Position it at the bottom of the viewport */
+  padding: 10px 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button#addClozy:hover {
+  background-color: #0056b3;
+}
+
+.gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  padding-bottom: 20px; /* Give some space for the scrollbar */
+}
+

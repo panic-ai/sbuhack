@@ -30,11 +30,11 @@ header {
 }
 
 .home-button {
-    background-image: url('html_images/home_icon.jpg');
+    background-image: url('UI/home_icon.jpg');
 }
 
 .settings-button {
-    background-image: url('html_images/settings.png');
+    background-image: url('UI/settings.png');
 }
 
 h1 {
@@ -78,6 +78,36 @@ footer {
 
 </style>
 <script>
+document.getElementById('file-input').addEventListener('change', function(event) {
+    const files = event.target.files;
+    if (files.length > 0) {
+        // Process or upload files here
+        uploadFiles(files);
+    }
+});
+
+function uploadFiles(files) {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+    }
+
+    // Example of uploading files using Fetch API
+    fetch('/processImages/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        // Optionally, refresh or update the UI here
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+
     const fs = require('fs');
 // Load images from the "user images" folder
 const imageContainer = document.querySelector('.image-container');
@@ -116,10 +146,10 @@ settingsButton.addEventListener('click', () => {
     // Implement settings button functionality
 });
 
-const addButton = document.querySelector('.add-button');
-addButton.addEventListener('click', () => {
-    // Implement add more functionality
-});
+// const addButton = document.querySelector('.add-button');
+// addButton.addEventListener('click', () => {
+//     // Implement add more functionality
+// });
 
 </script>
 </head>
@@ -136,8 +166,12 @@ addButton.addEventListener('click', () => {
                 <!-- Image elements will be inserted here by JavaScript -->
             </div>
         </main>
+        <form id="file-upload-form" style="display:none;">
+            <input type="file" id="file-input" name="files" multiple="multiple" accept="image/*" style="display:none;"/>
+            <label for="file-input">Choose Files</label>
+        </form>
         <footer>
-            <button class="add-button" aria-label="Add more">+ ADD MORE</button>
+            <button class="add-button" aria-label="Add more" onclick="document.getElementById('file-input').click();">+ ADD MORE</button>
         </footer>
     </div>
     <!-- <script src="scripts.js"></script> -->

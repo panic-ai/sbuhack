@@ -1,6 +1,7 @@
 from typing import List
 import uuid
 from fastapi import FastAPI, HTTPException, File, Form, UploadFile
+from typing import List
 from pydantic import BaseModel
 from pymongo import MongoClient
 from passlib.context import CryptContext
@@ -91,7 +92,7 @@ def fix_channels(t):
         return ToPILImage()(torch.stack([t[0] for i in (0, 0, 0)]))
     return ToPILImage()(t)
 
-@app.get("/clozy/UI/{imageasset}")
+@app.get("/UI/{imageasset}")
 async def get_image_assets(imageasset: str):
     # Check if the provided file ID is valid
         file_path = "UI/images/"+imageasset
@@ -101,7 +102,7 @@ async def get_image_assets(imageasset: str):
         return FileResponse(image_path)
 
 
-@app.get("/clozy", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def serving_index():
     # Path to your HTML file inside the 'static' directory
     file_path = "UI/index.html"
@@ -113,7 +114,7 @@ async def serving_index():
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@app.get("/clozy/signup", response_class=HTMLResponse)
+@app.get("/signup", response_class=HTMLResponse)
 async def serving_signup():
     # Path to your HTML file inside the 'static' directory
     file_path = "UI/signup.html"
@@ -124,10 +125,32 @@ async def serving_signup():
 
     return HTMLResponse(content=html_content, status_code=200)
 
-@app.get("/clozy/homepage", response_class=HTMLResponse)
-async def serving_signup():
+@app.get("/homepage", response_class=HTMLResponse)
+async def serving_homepage():
     # Path to your HTML file inside the 'static' directory
     file_path = "UI/homepage.html"
+
+    # Read the HTML file
+    with open(file_path, "r") as file:
+        html_content = file.read()
+
+    return HTMLResponse(content=html_content, status_code=200)
+
+@app.get("/closet", response_class=HTMLResponse)
+async def serving_closet():
+    # Path to your HTML file inside the 'static' directory
+    file_path = "UI/closet.html"
+
+    # Read the HTML file
+    with open(file_path, "r") as file:
+        html_content = file.read()
+
+    return HTMLResponse(content=html_content, status_code=200)
+
+@app.get("/generate", response_class=HTMLResponse)
+async def serving_suggest_dress():
+    # Path to your HTML file inside the 'static' directory
+    file_path = "UI/suggest_dress.html"
 
     # Read the HTML file
     with open(file_path, "r") as file:
@@ -173,56 +196,106 @@ async def login_user(login: Login):
             raise HTTPException(status_code=401, detail="Incorrect password")
     else:
         raise HTTPException(status_code=404, detail="User not found")
+    
 
 @app.post("/processImages/")
-async def processImages(username: str = Form(...),
-                        images:List[UploadFile] = File(...)):
+async def process_images(username: str = Form(...), images: List[UploadFile] = File(...)):
+    processed_images_info = []  # To store information about each processed image
+
     for image in images:
-        # Create a bytes buffer from the file content
-        bytes_io = io.BytesIO(await image.read())
-        print ("\nContent rceived\n")
-
-        # Open the bytes buffer with PIL
-        pil_image = Image.open(bytes_io)
-        pil_image = fix_channels(ToTensor()(pil_image))
-        print ("Fix channels done")
-        inputs = feature_extractor(images=pil_image, return_tensors="pt")
-        print ("Feature extraction done")
-        outputs=None
         try:
-            outputs = model(**inputs)
-        except Exception as e:
-            print (e)
-        print ("Output done")
-        filelist, categorylist, colorlist = save_segmented_parts(pil_image, outputs, threshold=0.2)
-        print ("complete_process complete")
-        print ("\n\nfilelist \n",filelist)
-        print ("\n\ncategorylist\n ",categorylist)
-        print ("\n\ncolorlist\n ",colorlist)
-        text_desctiption = text_desc(bytes_io)
-        print ("\n\text_desctiption\n ",text_desctiption)
-        for i in range(len(filelist)):
-            location = "../images/"+username+"/"
-            if not os.path.exists(location):
-                os.makedirs(location)
-            category = categorylist[i].split(',')
-            temp = ''
-            for i in category:
-                temp=temp+"_"+i
-            fname = location+"-"+colorlist[i]+"-"+temp
-            filelist[i].save(fname+"-"+image.filename)
-            data = {
-                "location": location,
-                "color": colorlist[i],
-                "categorylist": temp
-            }
-            with open(location+".json", "w") as json_file:
-                json.dump(data, json_file, indent=4)
+            # Read the image file using a bytes buffer
+            bytes_io = io.BytesIO(await image.read())
+            print('Content received')
+            # Use PIL to open the image
+            pil_image = Image.open(bytes_io)
+            pil_image = fix_channels(ToTensor()(pil_image))
 
-# Close the image file
-            filelist[i].close()
-            #create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
-    return "Yolo"
+            # Extract features and perform model prediction
+            inputs = feature_extractor(images=pil_image, return_tensors="pt")
+            outputs = model(**inputs)
+
+            # Save segmented parts of the image, if applicable
+            file_list, category_list, color_list = save_segmented_parts(pil_image, outputs, threshold=0.2)
+            text_description = text_desc(bytes_io)
+
+            # Process each segmented part
+            for i, file in enumerate(file_list):
+                location = f"./images/{username}/"
+                os.makedirs(location, exist_ok=True)  # Ensure the directory exists
+
+                category = "-".join(category_list[i].split(','))
+                file_name = f"{location}{color_list[i]}-{category}-{image.filename}"
+                file.save(file_name)  # Save the file
+
+                # Optionally, store additional file details
+                processed_images_info.append({
+                    "file_name": file_name,
+                    "color": color_list[i],
+                    "category": category,
+                    "description": text_description
+                })
+
+                file.close()  # Ensure the file is closed after processing
+
+        except Exception as e:
+            print(f"Error processing image {image.filename}: {e}")
+            continue  # Proceed with the next image if an error occurs
+
+    if not processed_images_info:
+        raise HTTPException(status_code=500, detail="Failed to process any images")
+
+    return {"message": "Images processed successfully", "processed_images": processed_images_info}
+
+# @app.post("/processImages/")
+# async def processImages(username: str = Form(...),
+#                         images:List[UploadFile] = File(...)):
+#     for image in images:
+#         # Create a bytes buffer from the file content
+#         bytes_io = io.BytesIO(await image.read())
+#         print ("\nContent rceived\n")
+
+#         # Open the bytes buffer with PIL
+#         pil_image = Image.open(bytes_io)
+#         pil_image = fix_channels(ToTensor()(pil_image))
+#         print ("Fix channels done")
+#         inputs = feature_extractor(images=pil_image, return_tensors="pt")
+#         print ("Feature extraction done")
+#         outputs=None
+#         try:
+#             outputs = model(**inputs)
+#         except Exception as e:
+#             print (e)
+#         print ("Output done")
+#         filelist, categorylist, colorlist = save_segmented_parts(pil_image, outputs, threshold=0.2)
+#         print ("complete_process complete")
+#         print ("\n\nfilelist \n",filelist)
+#         print ("\n\ncategorylist\n ",categorylist)
+#         print ("\n\ncolorlist\n ",colorlist)
+#         text_desctiption = text_desc(bytes_io)
+#         print ("\n\text_desctiption\n ",text_desctiption)
+#         for i in range(len(filelist)):
+#             location = "../images/"+username+"/"
+#             if not os.path.exists(location):
+#                 os.makedirs(location)
+#             category = categorylist[i].split(',')
+#             temp = ''
+#             for temp_var in category:
+#                 temp=temp+"-"+temp_var
+#             fname = location+colorlist[i]+"-"+temp
+#             filelist[i].save(fname+"-"+image.filename)
+#             data = {
+#                 "location": location,
+#                 "color": colorlist[i],
+#                 "categorylist": temp
+#             }
+#             with open(location+".json", "w") as json_file:
+#                 json.dump(data, json_file, indent=4)
+
+# # Close the image file
+#             filelist[i].close()
+#             #create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
+#     return "Yolo"
 
 
 
@@ -258,7 +331,7 @@ async def create_item(username: str = Form(...),
 
 @app.get("/getItems/{username}")
 async def getItems(username: str):
-    location = "/home/ubuntu/images/"+username+"/"
+    location = "../images/"+username+"/"
     files = os.listdir(location)
     line = ""
     for file in files:

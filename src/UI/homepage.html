@@ -92,17 +92,27 @@
     <!-- Buttons for CLOSET and GENERATE -->
     <div class="btn-container">
         <!-- Buttons for CLOSET and GENERATE on the same row -->
-        <button class="button button-light">CLOSET</button>
-        <button class="button">GENERATE</button>
+        <button class="button button-light closet-button" >CLOSET</button>
+        <button class="button generate-button">GENERATE</button>
       </div>
   </div>
 
   <script>
+    document.querySelector('.button-light').onclick = function() {
+    // Redirect to the new page upon clicking the button
+    window.location.href = 'closet'; // Replace 'path_to_your_signup_page.html' with the actual path to your HTML file
+  };
+
+  document.querySelector('.generate-button').onclick = function() {
+    // Redirect to the new page upon clicking the button
+    window.location.href = 'generate'; // Replace 'path_to_your_signup_page.html' with the actual path to your HTML file
+  };
+
     // JavaScript code for handling button click events
-    document.querySelector('.button-light').addEventListener('click', function() {
-      // Add functionality for CLOSET button
-      console.log('CLOSET button clicked');
-    });
+    // document.querySelector('.button-light').addEventListener('click', function() {
+    //   // Add functionality for CLOSET button
+    //   console.log('CLOSET button clicked');
+    // });
 
     document.querySelector('.button').addEventListener('click', function() {
       // Add functionality for GENERATE button
