@@ -195,7 +195,7 @@ async def processImages(username: str = Form(...),
         except Exception as e:
             print (e)
         print ("Output done")
-        filelist, categorylist, colorlist = save_segmented_parts(fiximage, outputs, threshold=0.5)
+        filelist, categorylist, colorlist = save_segmented_parts(fiximage, outputs, threshold=0.2)
         print ("complete_process complete")
         print ("\n\nfilelist \n",filelist)
         print ("\n\ncategorylist\n ",categorylist)
