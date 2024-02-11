@@ -166,13 +166,13 @@ def save_segmented_parts(image, outputs, threshold=0.8, output_dir='segmented_pa
 
         dominant_color = get_dominant_color(cropped_image)
         color_name = rgb_to_color_name(dominant_color)  # Convert RGB to color name
-        
+
         filelist.append(cropped_image)
         categorylist.append(category)
 
         colorlist.append(color_name)
 
-        
+
 
         if save:
             cropped_image.save(f"{output_dir}/{category}_{color_name}_{i}.jpg")
@@ -189,23 +189,23 @@ def complete_process(image):
 
 
 
-import sys
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python cloth_detection.py <directory>")
-        sys.exit(1)
-    
-    directory = sys.argv[1]
-    output_dir = f"{directory}_classified"
-    
-    for filename in tqdm(os.listdir(directory)):
-        if filename.endswith(".jpg"):
-            images_path = os.path.join(directory, filename)
-            image_name = images_path.split("/")[-1].split(".")[0]
-            image = Image.open(open(images_path, "rb"))
-            image = fix_channels(ToTensor()(image))
-            inputs = feature_extractor(images=image, return_tensors="pt")
-            outputs = model(**inputs)
-
-            save_segmented_parts(image, outputs, threshold=0.5, output_dir=f"segmented_parts_{directory}")
+# import sys
+#
+# if __name__ == "__main__":
+#     if len(sys.argv) != 2:
+#         print("Usage: python cloth_detection.py <directory>")
+#         sys.exit(1)
+#
+#     directory = sys.argv[1]
+#     output_dir = f"{directory}_classified"
+#
+#     for filename in tqdm(os.listdir(directory)):
+#         if filename.endswith(".jpg"):
+#             images_path = os.path.join(directory, filename)
+#             image_name = images_path.split("/")[-1].split(".")[0]
+#             image = Image.open(open(images_path, "rb"))
+#             image = fix_channels(ToTensor()(image))
+#             inputs = feature_extractor(images=image, return_tensors="pt")
+#             outputs = model(**inputs)
+#
+#             save_segmented_parts(image, outputs, threshold=0.5, output_dir=f"segmented_parts_{directory}")
