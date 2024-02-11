@@ -20,6 +20,7 @@ from fastapi.responses import FileResponse
 from pathlib import Path
 from cloth_detection import complete_process
 
+
 # MongoDB connection details
 MONGO_USERNAME = "sriharshapy"
 MONGO_PASSWORD = "V9KLsQBdhZxGm9cK"
