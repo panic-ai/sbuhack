@@ -74,10 +74,6 @@ def plot_results(pil_img, prob, boxes):
     plt.show()
 
 
-MODEL_NAME = "valentinafeve/yolos-fashionpedia"
-feature_extractor = YolosFeatureExtractor.from_pretrained('hustvl/yolos-small')
-model = YolosForObjectDetection.from_pretrained(MODEL_NAME)
-
 def get_dominant_color(image, num_clusters=5):
     # Resize image to speed up processing
     small_image = image.resize((50, 50))
@@ -173,7 +169,7 @@ def save_segmented_parts(image, outputs, threshold=0.8):
     return filelist,categorylist,colorlist
 
 
-def complete_process(image):
+def complete_process(image,feature_extractor, model):
     image = fix_channels(ToTensor()(image))
     print ("Fix channels done")
     inputs = feature_extractor(images=image, return_tensors="pt")

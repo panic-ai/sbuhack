@@ -33,6 +33,10 @@ MONGO_PORT = 27017
 DATABASE_NAME = "userdb"
 COLLECTION_NAME = "users"
 
+MODEL_NAME = "valentinafeve/yolos-fashionpedia"
+feature_extractor = YolosFeatureExtractor.from_pretrained('hustvl/yolos-small')
+model = YolosForObjectDetection.from_pretrained(MODEL_NAME)
+
 # MongoDB connection URI with authentication
 MONGO_URI = "mongodb+srv://sriharshapy:V9KLsQBdhZxGm9cK@cluster0.d4ts45w.mongodb.net/?retryWrites=true&w=majority"
 
@@ -156,7 +160,7 @@ async def processImages(username: str = Form(...),
 
         # Open the bytes buffer with PIL
         pil_image = Image.open(bytes_io)
-        filelist, categorylist, colorlist = complete_process(pil_image)
+        filelist, categorylist, colorlist = complete_process(pil_image,feature_extractor,model)
         print ("complete_process complete")
         print ("\n\nfilelist \n",filelist)
         print ("\n\ncategorylist\n ",categorylist)
