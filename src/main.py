@@ -77,10 +77,22 @@ async def serving_index():
 
     return HTMLResponse(content=html_content, status_code=200)
 
+
 @app.get("/clozy/signup", response_class=HTMLResponse)
 async def serving_signup():
     # Path to your HTML file inside the 'static' directory
     file_path = "UI/signup.html"
+
+    # Read the HTML file
+    with open(file_path, "r") as file:
+        html_content = file.read()
+
+    return HTMLResponse(content=html_content, status_code=200)
+
+@app.get("/clozy/homepage", response_class=HTMLResponse)
+async def serving_signup():
+    # Path to your HTML file inside the 'static' directory
+    file_path = "UI/homepage.html"
 
     # Read the HTML file
     with open(file_path, "r") as file:
