@@ -15,10 +15,10 @@ sys.path.append('./models/')
 from User import User
 from Login import Login
 from Item import Item
-# from oai import text_desc
+from oai import text_desc
 from fastapi.responses import FileResponse
 from pathlib import Path
-# from cloth_detection import complete_process
+from cloth_detection import complete_process
 
 # MongoDB connection details
 MONGO_USERNAME = "sriharshapy"
@@ -140,15 +140,15 @@ async def login_user(login: Login):
     else:
         raise HTTPException(status_code=404, detail="User not found")
 
-# @app.post("/processImages/")
-# async def processImages(username: str = Form(...),
-#                         images:List[UploadFile] = File(...)):
-#     for image in images:
-#         filelist, categorylist, colorlist = complete_process(image.file)
-#         text_desc = text_desc(image.file)
-#         for i in range(len(filelist)):
-#             create_item(username, categorylist[i], text_desc, colorlist[i], filelist[i])
-#     return "Yolo"
+@app.post("/processImages/")
+async def processImages(username: str = Form(...),
+                        images:List[UploadFile] = File(...)):
+    for image in images:
+        filelist, categorylist, colorlist = complete_process(image.file)
+        text_desc = text_desc(image.file)
+        for i in range(len(filelist)):
+            create_item(username, categorylist[i], text_desc, colorlist[i], filelist[i])
+    return "Yolo"
 
 
 def create_item(unser_name, item_type, item_description, item_colour, files):
