@@ -23,6 +23,7 @@ from pathlib import Path
 from cloth_detection import save_segmented_parts
 from PIL import Image
 import io
+import os
 from torchvision.transforms import ToTensor, ToPILImage
 
 
