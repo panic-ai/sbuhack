@@ -189,7 +189,7 @@ def create_item(unser_name, item_type, item_description, item_colour, files):
     })
 
     if result.inserted_id:
-        return {"message": "Item created successfully"}
+        continue
     else:
         raise HTTPException(status_code=500, detail="Failed to create item")
 
