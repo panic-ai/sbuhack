@@ -38,8 +38,8 @@
   }
 
   .signup-form input {
-    width: 358px;
-    height: 48px;
+    width: 330px;
+    height: 35px;
     margin-bottom: 12px;
     padding: 15px;
     background: #FFFFFF;
@@ -87,7 +87,7 @@
   </div>
 
   <script>
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
+    document.getElementById('signupForm').addEventListener('submit', async function(event) {
       event.preventDefault();
       const email = document.getElementById('email').value;
       const username = document.getElementById('username').value;
