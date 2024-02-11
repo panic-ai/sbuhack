@@ -189,7 +189,11 @@ async def processImages(username: str = Form(...),
         print ("Fix channels done")
         inputs = feature_extractor(images=fiximage, return_tensors="pt")
         print ("Feature extraction done")
-        outputs = model(**inputs)
+        outputs=None
+        try:
+            outputs = model(**inputs)
+        catch Exception e:
+            print (e)
         print ("Output done")
         filelist, categorylist, colorlist = save_segmented_parts(fiximage, outputs, threshold=0.5)
         print ("complete_process complete")
