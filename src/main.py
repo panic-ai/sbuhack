@@ -66,6 +66,7 @@ async def get_image_assets(imageasset: str):
             raise HTTPException(status_code=400, detail="no such image : "+imageasset)
         return FileResponse(image_path)
 
+
 @app.get("/clozy", response_class=HTMLResponse)
 async def serving_index():
     # Path to your HTML file inside the 'static' directory
