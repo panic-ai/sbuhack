@@ -176,8 +176,11 @@ async def processImages(username: str = Form(...),
             files = {
                 'files': (upload_file.filename, upload_file.file, upload_file.content_type)
             }
+            headers = {
+                'accept': 'application/json',
+            }
 
-            response = requests.post(url, headers=headers, data=form_data, files=files)
+            response = requests.post("http://localhost:8000/items/", headers=headers, data=form_data, files=files)
             #create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
     return "Yolo"
 
