@@ -17,7 +17,7 @@ from Login import Login
 from Item import Item
 from oai import text_desc
 from fastapi.responses import FileResponse
-
+from pathlib import Path
 from cloth_detection import complete_process
 
 # MongoDB connection details
@@ -61,7 +61,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 async def get_image_assets(imageasset: str):
     # Check if the provided file ID is valid
         file_path = "UI/images/"+imageasset
-        if not file_path.is_file():
+        image_path = Path(file_path)
+        if not image_path.is_file():
             raise HTTPException(status_code=400, detail="no such image : "+imageasset)
         return FileResponse(image_path)
 
