@@ -192,7 +192,7 @@ async def processImages(username: str = Form(...),
         outputs=None
         try:
             outputs = model(**inputs)
-        except Exception e:
+        except Exception as e:
             print (e)
         print ("Output done")
         filelist, categorylist, colorlist = save_segmented_parts(fiximage, outputs, threshold=0.5)
