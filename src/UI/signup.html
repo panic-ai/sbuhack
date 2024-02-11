@@ -25,7 +25,7 @@
   }
 
   .signup-logo {
-    background: url('http://44.211.67.134/clozy/UI/clozy_icon_name.jpg'); /* Update with the correct path to your logo */
+    background: url('/UI/clozy_icon_name.jpg'); /* Update with the correct path to your logo */
     width: 77px;
     height: 90px;
     margin-bottom: 24px;
@@ -115,7 +115,7 @@
         phone_number: phone_number
       };
       try {
-        const response = await fetch('http://44.211.67.134/register/', {
+        const response = await fetch('http://localhost:8000/register/', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -128,7 +128,7 @@
         if (response.ok) {
           // Redirect to another page or perform some action upon successful login
           alert('Signup successful');
-          window.location.href = 'http://44.211.67.134/clozy/'; // Replace '
+          window.location.href = 'UI/signup.html'; // Replace '
         } else {
           // Handle the case where login was not successful
           alert('Login failed. Please try again.');

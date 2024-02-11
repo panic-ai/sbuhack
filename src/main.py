@@ -202,7 +202,7 @@ async def processImages(username: str = Form(...),
         text_desctiption = text_desc(bytes_io)
         print ("\n\text_desctiption\n ",text_desctiption)
         for i in range(len(filelist)):
-            location = "/home/ubuntu/images/"+username+"/"
+            location = "../images/"+username+"/"
             if not os.path.exists(location):
                 os.makedirs(location)
             category = categorylist[i].split(',')
