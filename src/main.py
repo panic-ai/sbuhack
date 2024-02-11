@@ -159,13 +159,13 @@ async def processImages(username: str = Form(...),
         print ("\n\nfilelist \n",filelist)
         print ("\n\ncategorylist\n ",categorylist)
         print ("\n\ncolorlist\n ",colorlist)
-        text_desc = text_desc(pil_image)
+        text_desctiption = text_desc(pil_image)
         for i in range(len(filelist)):
             bytes_io = io.BytesIO()
             filelist[i].save(bytes_io, format='JPEG')
             bytes_io.seek(0)
             upload_file = UploadFile(filename=""+"-"+image.filename, content=bytes_io)
-            create_item(username, categorylist[i], text_desc, colorlist[i], upload_file)
+            create_item(username, categorylist[i], text_desctiption, colorlist[i], upload_file)
     return "Yolo"
 
 
