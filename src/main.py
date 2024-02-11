@@ -23,6 +23,7 @@ from pathlib import Path
 from cloth_detection import fix_channels
 from PIL import Image
 import io
+from torchvision.transforms import ToTensor, ToPILImage
 
 
 # MongoDB connection details
