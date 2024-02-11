@@ -145,16 +145,23 @@ async def login_user(login: Login):
 async def processImages(username: str = Form(...),
                         images:List[UploadFile] = File(...)):
     for image in images:
-    contents = await image.read()
-    # Create a bytes buffer from the file content
-    bytes_io = io.BytesIO(contents)
+        contents = await image.read()
+        # Create a bytes buffer from the file content
+        bytes_io = io.BytesIO(contents)
 
-    # Open the bytes buffer with PIL
-    pil_image = Image.open(bytes_io)
+        # Open the bytes buffer with PIL
+        pil_image = Image.open(bytes_io)
         filelist, categorylist, colorlist = complete_process(pil_image)
+        print ("\n\nfilelist \n",filelist)
+        print ("\n\ncategorylist\n ",categorylist)
+        print ("\n\ncolorlist\n ",colorlist)
         text_desc = text_desc(pil_image)
         for i in range(len(filelist)):
-            create_item(username, categorylist[i], text_desc, colorlist[i], filelist[i])
+            bytes_io = io.BytesIO()
+            filelist[i].save(bytes_io, format='JPEG')
+            bytes_io.seek(0)
+            upload_file = UploadFile(filename=""+"-"+image.filename, content=bytes_io)
+            create_item(username, categorylist[i], text_desc, colorlist[i], upload_file)
     return "Yolo"
 
 
