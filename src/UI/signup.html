@@ -25,7 +25,7 @@
   }
 
   .signup-logo {
-    background: url('http://44.211.67.134/clozy/UI/clozy_icon.jpg'); /* Update with the correct path to your logo */
+    background: url('http://44.211.67.134/clozy/UI/clozy_icon_name.jpg'); /* Update with the correct path to your logo */
     width: 77px;
     height: 90px;
     margin-bottom: 24px;
@@ -78,6 +78,10 @@
       <input type="text" id="username" placeholder="Username" required>
       <input type="password" id="password" placeholder="Password" required>
       <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+      <input type="text" id="gender" placeholder="Enter gender" required>
+      <input type="text" id="country" placeholder="Enter country" required>
+      <input type="text" id="country" placeholder="Enter phone number" required>
+      <input type="text" id="date_of_birth" placeholder="Enter date of birth" required>
       <button type="submit">Sign Up</button>
     </form>
   </div>
@@ -89,14 +93,46 @@
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
+      const gender = document.getElementById('gender').value;
+      const country = document.getElementById('country').value;
+      const date_of_birth = document.getElementById('date_of_birth').value;
 
       if (password !== confirmPassword) {
         alert("Passwords do not match!");
         return;
       }
+      const data = {
+        username: username,
+        password: password,
+        gender: gender,
+        country: country,
+        date_of_birth: date_of_birth,
+        email: email
+      };
+      try {
+        const response = await fetch('http://44.211.67.134/clozy/signup', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
 
-      // Here you would handle the signup logic, for example sending data to the server
-      console.log({ email, username, password });
+        // Check if the request was successful
+        if (response.ok) {
+          // Redirect to another page or perform some action upon successful login
+          alert('Signup successful');
+          window.location.href = 'http://44.211.67.134/clozy/'; // Replace '
+        } else {
+          // Handle the case where login was not successful
+          alert('Login failed. Please try again.');
+        }
+      } catch (error) {
+        // Handle any errors that occur during the fetch operation
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+      }
 
       // After successful signup, you might want to redirect the user or give some confirmation
     });
