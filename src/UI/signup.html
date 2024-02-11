@@ -80,7 +80,7 @@
       <input type="password" id="confirmPassword" placeholder="Confirm password" required>
       <input type="text" id="gender" placeholder="Enter gender" required>
       <input type="text" id="country" placeholder="Enter country" required>
-      <input type="text" id="country" placeholder="Enter phone number" required>
+      <input type="text" id="phone_number" placeholder="Enter phone number" required>
       <input type="text" id="date_of_birth" placeholder="Enter date of birth" required>
       <button type="submit">Sign Up</button>
     </form>
@@ -96,6 +96,7 @@
       const gender = document.getElementById('gender').value;
       const country = document.getElementById('country').value;
       const date_of_birth = document.getElementById('date_of_birth').value;
+      const phone_number = document.getElementById('phone_number').value;
 
       if (password !== confirmPassword) {
         alert("Passwords do not match!");
@@ -107,7 +108,8 @@
         gender: gender,
         country: country,
         date_of_birth: date_of_birth,
-        email: email
+        email: email,
+        phone_number: phone_number
       };
       try {
         const response = await fetch('http://44.211.67.134/register/', {
