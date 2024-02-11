@@ -159,7 +159,7 @@ async def processImages(username: str = Form(...),
         print ("\n\nfilelist \n",filelist)
         print ("\n\ncategorylist\n ",categorylist)
         print ("\n\ncolorlist\n ",colorlist)
-        text_desctiption = text_desc(pil_image)
+        text_desctiption = text_desc(image)
         for i in range(len(filelist)):
             bytes_io = io.BytesIO()
             filelist[i].save(bytes_io, format='JPEG')
