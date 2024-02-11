@@ -102,14 +102,19 @@
       const password = document.querySelector('input[type="password"]').value;
 
       // Data to be sent as part of the POST request
-      const formData = new FormData();
-      formData.append('username', username);
-      formData.append('password', password);
+      const data = {
+        username: username,
+        password: password
+      };
 
       try {
         const response = await fetch('http://44.211.67.134/login/', {
           method: 'POST',
-          body: {"username":username,"password":password}
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
         });
 
         // Check if the request was successful
